@@ -1,0 +1,21 @@
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% trans "نظام الإيجارات" %}{% endblock %}</title>
+   <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    {% include 'includes/navbar.html' %}
+    <div class="container">
+        {% include 'includes/sidebar.html' %}
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+    {% include 'includes/footer.html' %}
+</body>
+</html>
