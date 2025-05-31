@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "المباني" %}{% endblock %}
+{% block content %}
+<h2>قائمة المباني</h2>
+<a href="{% url 'building_add' %}">{% trans "إضافة مبنى جديد" %}</a>
+<table>
+    <tr>
+        <th>{% trans "الاسم" %}</th>
+        <th>{% trans "العنوان" %}</th>
+        <th>{% trans "خيارات" %}</th>
+    </tr>
+    {% for building in buildings %}
+    <tr>
+        <td>{{ building.name }}</td>
+        <td>{{ building.address }}</td>
+        <td>
+            <a href="{% url 'building_edit' building.id %}">{% trans "تعديل" %}</a>
+            <a href="{% url 'building_delete' building.id %}">{% trans "حذف" %}</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
