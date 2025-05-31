@@ -15,7 +15,6 @@
         <th>{% trans "المدة" %}</th>
         <th>{% trans "متبقي" %}</th>
         <th>{% trans "المبلغ" %}</th>
-        <th>{% trans "الحالة" %}</th>
         <th>{% trans "خيارات" %}</th>
     </tr>
     </thead>
@@ -30,9 +29,6 @@
         <td>{{ contract.contract_duration }}</td>
         <td>{{ contract.time_remaining }}</td>
         <td>{{ contract.total_amount }}</td>
-        <td>
-          {% if contract.is_expired %}منتهي{% elif contract.status_color == 'orange' %}قريب الانتهاء{% else %}ساري{% endif %}
-        </td>
         <td>
             <a href="{% url 'contract_edit' contract.id %}">{% trans "تعديل" %}</a>
             <a href="{% url 'contract_delete' contract.id %}">{% trans "حذف" %}</a>
