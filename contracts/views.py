@@ -1,11 +1,20 @@
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, ListView, UpdateView
-import openpyxl
-from django.http import HttpResponse
 from datetime import date
-from .forms import ContractForm
-from .models import Contract
+
+import openpyxl
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.http import HttpResponse
+from django.urls import reverse_lazy
+from django.views.generic import (
+  CreateView,
+  DeleteView,
+  DetailView,
+  ListView,
+  UpdateView,
+)
+
+from .forms import ContractForm
+from .models import Contract, Invoice
+
 
 def export_contracts_excel(request):
   contracts = Contract.objects.all()
@@ -69,3 +78,7 @@ class ContractDeleteView(DeleteView):
   model = Contract
   template_name = 'contracts/contract_confirm_delete.html'
   success_url = reverse_lazy('contract_list')
+
+class InvoicePrintView(DetailView):
+  model = Invoice
+  template_name = 'contracts/invoice_print.html'

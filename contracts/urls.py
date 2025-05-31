@@ -5,6 +5,7 @@ from .views import (
   ContractDeleteView,
   ContractListView,
   ContractUpdateView,
+  InvoicePrintView,
   export_contracts_excel,
 )
 
@@ -14,4 +15,5 @@ urlpatterns = [
   path('<int:pk>/edit/', ContractUpdateView.as_view(), name='contract_edit'),
   path('<int:pk>/delete/', ContractDeleteView.as_view(), name='contract_delete'),
   path('export/', export_contracts_excel, name='export_contracts_excel'),
+  path('invoice/<int:pk>/print/', InvoicePrintView.as_view(), name='invoice_print')
 ]

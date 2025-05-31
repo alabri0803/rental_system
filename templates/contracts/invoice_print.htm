@@ -1,0 +1,54 @@
+{% loaad i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}{% trans "فاتورة" %}{% endblock %}</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      direction: {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %};
+      margin: 30px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: right;
+    }
+    @media print {
+      .no-print {
+        display: none
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>شركة إدارة الإيجارات</h2>
+  <h3>{% trans "فاتورة إيجار شهر" %} {{ object.month }}/{{ object.year }}</h3>
+  <p><strong>المستأجر:</strong> {{ object.contract.tenant.full_name }}</p>
+  <p><strong>{% trans "الوحدة" %}:</strong> {{ object.unit }}</p>
+  <p><strong>{% trans "المبلغ المستحق" %}:</strong> {{ object.amount_due }}</p>
+  <p><strong>{% trans "تاريخ الإصدار" %}:</strong> {{ object.issue_date }}</p>
+  <p><strong>{% trans "الحالة" %}:</strong> {{ object.is_paid|yesno:"مدفوعة,غير مدفوعة" }}</p>
+  <table>
+    <tr>
+      <th>{% trans "الوصف" %}</th>
+      <th>{% trans "القيمة" %}</th>
+    </tr>
+    <tr>
+      <td>{% trans "الإيجار الشهري" %}</td>
+      <td>{{ object.amount_due }} ريال</td>
+    </tr>
+    <tr>
+      <td colspan="2" style="text-align: center;"><strong>المجموع: {{ object.amount_due }} ريال</strong></td>
+    </tr>
+  </table>
+  <br>
+  <button class="no-print" onclick="window.print()">{% trans "طباعة" %}</button>
+</body>
+</html>

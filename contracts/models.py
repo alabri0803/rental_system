@@ -76,3 +76,37 @@ class Contract(models.Model):
     commission = rent_annual * 0.03
     total = rent_annual + commission + self.admin_fees + 5
     return round(total, 2)
+
+class Invoice(models.Model):
+  contract = models.ForeignKey(
+    Contract,
+    on_delete=models.CASCADE,
+    related_name="invoices",
+    verbose_name=_("العقد")
+  )
+  month = models.PositiveIntegerField(
+    verbose_name=_("الشهر")
+  )
+  year = models.PositiveIntegerField(
+    verbose_name=_("السنة")
+  )
+  issued_date = models.DateField(
+    auto_now_add=True,
+    verbose_name=_("تاريخ الإصدار")
+  )
+  is_paid = models.BooleanField(
+    default=False,
+    verbose_name=_("مدفوع")
+  )
+
+  class Meta:
+    unique_together = ("contract", "month", "year")
+    verbose_name = _("فاتورة")
+    verbose_name_plural = _("الفواتير")
+
+  def __str__(self):
+    return f"فاتورة {self.contract} - {self.month}/{self.year}"
+
+  @property
+  def amount_due(self):
+    return self.contract.monthly_rent
