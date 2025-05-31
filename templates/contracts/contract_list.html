@@ -35,9 +35,7 @@
         </td>
         <td>
             <a href="{% url 'contract_edit' contract.id %}">{% trans "تعديل" %}</a>
-            {% if perms.contracts.delete_contract %}
             <a href="{% url 'contract_delete' contract.id %}">{% trans "حذف" %}</a>
-            {% endif %}
         </td>
     </tr>
         {% empty %}
