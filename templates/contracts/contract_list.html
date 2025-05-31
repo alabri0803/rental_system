@@ -3,7 +3,9 @@
 {% block title %}{% trans "قائمة العقود" %}{% endblock %}
 {% block content %}
 <h2>{% trans "قائمة العقود" %}</h2>
+{% if perms.contracts.add_contract %}
 <a href="{% url 'contract_add' %}">{% trans "إضافة عقد جديد" %}</a>
+{% endif %}
 <a href="{% url 'export_contracts_excel' %}">{% trans "تصدير" %}</a>
 <table border="1">
     <tr>
@@ -31,7 +33,9 @@
         </td>
         <td>
             <a href="{% url 'contract_edit' contract.id %}">{% trans "تعديل" %}</a>
+            {% if perms.contracts.delete_contract %}
             <a href="{% url 'contract_delete' contract.id %}">{% trans "حذف" %}</a>
+            {% endif %}
         </td>
     </tr>
     {% endfor %}

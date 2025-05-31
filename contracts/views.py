@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from datetime import date
 from .forms import ContractForm
 from .models import Contract
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 def export_contracts_excel(request):
   contracts = Contract.objects.all()
@@ -47,11 +48,12 @@ def export_contracts_excel(request):
   response['Content-Disposition'] = f'attachment; filename=contracts_{date.today()}.xlsx'
   wb.save(response)
   return response
-class ContractListView(ListView):
+  
+class ContractListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
   model = Contract
   template_name = 'contracts/contract_list.html'
 
-class ContractCreateView(CreateView):
+class ContractCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
   model = Contract
   form_class = ContractForm
   template_name = 'contracts/contract_form.html'
