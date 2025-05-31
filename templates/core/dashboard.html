@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "لوحة التحكم" %}{% endblock %}
+{% block content %}
+<h2>{% trans "لوحة التحكم" %}</h2>
+<div styl="display: flex; gap: 20px; flex-wrap: wrap;">
+  <div style="background-color: #f5f5f5; padding: 20px; border-radius: 5px;">المباني: {{ total_buildings }}</div>
+  <div style="background-color: #f5f5f5; padding: 20px; border-radius: 5px;">الوحدات: {{ total_units }}</div>
+  <div style="background-color: #f5f5f5; padding: 20px; border-radius: 5px;">المستأجرين: {{ total_tenants }}</div>
+  <div style="background-color: #f5f5f5; padding: 20px; border-radius: 5px;">العقود الإجمالية: {{ total_contracts }}</div>
+  <div style="background-color: #d4edda; padding: 20px; border-radius: 5px;">العقود السارية: {{ active_count }}</div>
+  <div style="background-color: #fff3cd; padding: 20px; border-radius: 5px;">العقود القريبة من الانتهاء: {{ expiring_count }}</div>
+  <div style="background-color: #f8d7da; padding: 20px; border-radius: 5px;">العقود المنتهية: {{ expired_count }}</div>
+</div>
+<br><br>
+<h3>تنبيهات العقود القريبة والمنتهية</h3>
+<table border="1" width="100%">
+  <tr>
+    <th>المستأجر</th>
+    <th>الوحدة</th>
+    <th>تاريخ الانتهاء</th>
+    <th>متبقي</th>
+    <th>الحالة</th>
+  </tr>
+  {% for contract in expiring_soon %}
+  <tr style="background-color: orange; color: white;">
+    <td>{{ contract.tenant }}</td>
+    <td>{{ contract.unit }}</td>
+    <td>{{ contract.end_date }}</td>
+    <td>{{ contract.time_remaining }}</td>
+    <td>
+      قريب الانتهاء
+    </td>
+  </tr>
+  {% endfor %}
+  {% for contract in expired %}
+  <tr style="background-color: red; color: white;">
+    <td>{{ contract.tenant }}</td>
+    <td>{{ contract.unit }}</td>
+    <td>{{ contract.end_date }}</td>
+    <td>منتهي</td>
+    <td>
+      منتهي
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
