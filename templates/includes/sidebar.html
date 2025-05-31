@@ -1,8 +1,20 @@
-<div class="list-group list-group-flush mt-3">
+<div class="list-group mt-4">
   {% if user.is_authenticated %}
-    <a href="{% url 'dashboard' %}" class="list-group-item list-group-item-action">📊 لوحة التحكم</a>
-    <a href="{% url 'building_list' %}" class="list-group-item list-group-item-action">🏢 المباني</a>
-    <a href="{% url 'tenant_list' %}" class="list-group-item list-group-item-action">👤 المستأجرين</a>
-    <a href="{% url 'contract_list' %}" class="list-group-item list-group-item-action">📄 العقود</a>
+    <a href="{% url 'dashboard' %}" class="list-group-item list-group-item-action {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+      <i class="bi bi-speedometer2 me-1"></i>
+      لوحة التحكم</a>
+    <a href="{% url 'building_list' %}" class="list-group-item list-group-item-action">
+      <i class="bi bi-building me-1"></i>
+      المباني</a>
+    <a href="{% url 'tenant_list' %}" class="list-group-item list-group-item-action">
+      <i class="bi bi-people me-1"></i>
+      المستأجرين</a>
+    <a href="{% url 'contract_list' %}" class="list-group-item list-group-item-action">
+      <i class="bi bi-file-text me-1"></i>
+      العقود</a>
+    <a href="{% url 'export_contracts_excel' %}" class="list-group-item list-group-item-action">
+      <i class="bi bi-download me-1"></i>
+      تصدير العقود
+      </a>
   {% endif %}
 </div>
