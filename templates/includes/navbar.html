@@ -5,6 +5,7 @@
     <a href="{% url 'logout' %}">{% trans "تسجيل الخروج" %}</a>
   {% else %}
     <a href="{% url 'login' %}">{% trans "تسجيل الدخول" %}</a>
+  {% endif %}
   <form action="{% url 'set_language' %}" method="post">
       {% csrf_token %}
       <select name="language" onchange="this.form.submit()">
