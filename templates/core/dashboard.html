@@ -3,62 +3,67 @@
 {% block title %}{% trans "لوحة التحكم" %}{% endblock %}
 {% block content %}
 <h2 class="mb-4">{% trans "لوحة التحكم" %}</h2>
-<div class="row g-4">
-  <div class="col-md-3">
-    <div class="card text-white bg-primary h-100">
-      <div class="card-body">
-        <h5 class="card-title">{% trans "عدد المباني" %}</h5>
-        <p class="card-text fs-4">{{ total_buildings }}</p>
+<div class="row g-4 mb-4">
+  <div class="col-md-3"><div class="card bg-primary text-white text-center"><div class="card-body">{% trans "المباني" %}:<strong>{{ total_buildings }}</strong>
       </div>
     </div>
   </div>
   <div class="col-md-3">
     <div class="card text-white bg-info h-100">
-      <div class="card-body">
-        <h5 class="card-title">{% trans "عدد الوحدات" %}</h5>
-        <p class="card-text fs-4">{{ total_units }}</p>
+      <div class="card-body">{% trans "الوحدات" %}
+        <strong>{{ total_units }}</strong>
       </div>
     </div>
   </div>
   <div class="col-md-3">
     <div class="card text-white bg-success h-100">
-      <div class="card-body">
-        <h5 class="card-title">{% trans "المستأجرين" %}</h5>
-        <p class="card-text fs-4">{{ total_tenants }}</p>
+      <div class="card-body">{% trans "المستأجرين" %}
+        <strong>{{ total_tenants }}</strong>
       </div>
     </div>
   </div>
   <div class="col-md-4">
     <div class="card text-white bg-secondary h-100">
-      <div class="card-body">
-        <h5 class="card-title">{% trans "العقود" %}</h5>
-        <p class="card-text fs-4">{{ total_contracts }}</p>
+      <div class="card-body">{% trans "العقود" %}
+        <strong">{{ total_contracts }}</strong>
       </div>
     </div>
   </div>
-  <div class="col-md-4">
-    <div class="card text-white bg-warning">
-      <div class="card-body">
-        <h5 class="card-title">{% trans "العقود القريبة من الانتهاء" %}</h5>
-        <p class="card-text fs-4">{{ expiring_count }}</p>
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-light fw-bold">{% trans "نسبة العقود" %}</div>
+        <div class="card-body">
+          <canvas id="contractsPieChart" width="400" height="300"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-light fw-bold">{% trans "ملخص البيانات" %}</div>
+        <div class="card-body">
+          <canvas id="summaryBarChart" width="400" height="300"></canvas>
+        </div>
       </div>
     </div>
   </div>
-  <div class="col-md-4">
-    <div class="card text-white bg-danger">
-      <div class="card-body">
-        <h5 class="card-title">{% trans "العقود المنتهية" %}</h5>
-        <p class="card-text fs-4">{{ expired_count }}</p>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="card text-white bg-success">
-      <div class="card-body">
-        <h5 class="card-title">{% trans "العقود السارية" %}</h5>
-        <p class="card-text fs-4">{{ active_count }}</p>
-      </div>
-    </div>
-  </div>
-</div>
+  <script>
+    const pieCtx = document.getElementById('contractsPieChart').getContext('2d');
+    new Chart(pieCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['{% trans "سارية" %}', '{% trans "قريب الانتهاء" %}', '{% trans "منتهية" %}'],
+        datasets: [{
+          data: [{{ expired_count }}, {{ expiring_count }}, {{ active_count}}],
+          backgroundColor: ['#dc3545', '#ffc107', '#198754']
+      }]
+    },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom'}
+        }
+      }
+    });
+  </script>
 {% endblock %}
