@@ -1,5 +1,5 @@
 from datetime import date
-
+from decimal import Decimal
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -70,7 +70,7 @@ class Contract(models.Model):
   @property
   def total_amount(self):
     base = self.monthly_rent * 12
-    commission = base * 0.03
+    commission = base * Decimal(0.03)
     return round(base + commission + OFFICE_FEE + ADMIN_FEE, 2)
 
 class Invoice(models.Model):
