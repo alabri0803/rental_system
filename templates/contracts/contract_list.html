@@ -4,6 +4,7 @@
 {% block content %}
 <h2>{% trans "قائمة العقود" %}</h2>
 <a href="{% url 'contract_add' %}">{% trans "إضافة عقد جديد" %}</a>
+<a href="{% url 'export_contracts_excel' %}">{% trans "تصدير" %}</a>
 <table border="1">
     <tr>
         <th>{% trans "المستأجر" %}</th>
