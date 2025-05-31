@@ -73,8 +73,8 @@ class Contract(models.Model):
   @property
   def total_amount(self):
     rent_annual = self.monthly_rent * 12
-    commission = rent_annual * Decimal('0.03')
-    total = rent_annual + commission + self.admin_fees + Decimal('5')
+    commission = rent_annual * Decimal('3%')
+    total = rent_annual + commission + self.admin_fees + Decimal('5.000')
     return total.quantize(Decimal('0.00'))
 
 class Invoice(models.Model):
