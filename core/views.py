@@ -1,5 +1,6 @@
 from datetime import date, timedelta
 
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from buildings.models import Building, Unit
@@ -7,6 +8,7 @@ from contracts.models import Contract
 from tenants.models import Tenant
 
 
+@login_required
 def dashboard(request):
   today = date.today()
   contracts = Contract.objects.all()

@@ -1,7 +1,11 @@
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 
 
-class ArabicLoginView(LoginView):
+class CustomLoginView(LoginView):
   template_name = 'login.html'
+  redirect_authenticated_user = True
   success_url = reverse_lazy('dashboard')
+
+class CustomLogoutView(LogoutView):
+  next_page = reverse_lazy('login')

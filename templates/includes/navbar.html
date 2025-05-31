@@ -1,0 +1,14 @@
+<nav>
+  {% if user.is_authenticated %}
+| {{ user.username }} مرحباً
+    <a href="{% url 'logout' %}">{% trans "تسجيل الخروج" %}</a>
+  {% else %}
+    <a href="{% url 'login' %}">{% trans "تسجيل الدخول" %}</a>
+  <form action="{% url 'set_language' %}" method="post">
+      {% csrf_token %}
+      <select name="language" onchange="this.form.submit()">
+        <option value="ar" {% if LANGUAGE_CODE == 'ar' %}selected{% endif %}>العربية</option>
+        <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
+      </select>
+  </form>
+</nav>
