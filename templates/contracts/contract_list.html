@@ -3,7 +3,6 @@
 {% block title %}{% trans "قائمة العقود" %}{% endblock %}
 {% block content %}
 <h2 class="mb-3">{% trans "قائمة العقود" %}</h2>
-{% if perms.contracts.add_contract %}
 <a href="{% url 'contract_add' %}" class="btn btn-success mb-3">{% trans "إضافة عقد جديد" %}</a>
 <table class="table table-hover table-bordered align-middle text-center">
     <thead class="table-dark">
@@ -15,13 +14,20 @@
         <th>{% trans "المدة" %}</th>
         <th>{% trans "متبقي" %}</th>
         <th>{% trans "المبلغ" %}</th>
+        <th>{% trans "الحالة" %}</th>
         <th>{% trans "خيارات" %}</th>
     </tr>
     </thead>
     <tbody>
     {% for contract in object_list %}
-    <tr {% if contract.status_color == 'red' %}class="table-danger"{% elif contract.status_color == 'orange' %}class="table-warning"
-        {% else %}class="table-success" {% endif}>
+    <tr 
+        {% if contract.status_color == 'red' %}
+        class="table-danger"
+        {% elif contract.status_color == 'orange' %}
+        class="table-warning"
+        {% else %}
+        class="table-success" 
+        {% endif %}>
         <td>{{ contract.tenant }}</td>
         <td>{{ contract.unit }}</td>
         <td>{{ contract.start_date }}</td>
@@ -29,6 +35,15 @@
         <td>{{ contract.contract_duration }}</td>
         <td>{{ contract.time_remaining }}</td>
         <td>{{ contract.total_amount }}</td>
+        <td>
+          {% if contract.is_expired %}
+            منتهي
+            {% elif contract.status_color == 'orange' %}
+            قريب الانتهاء
+            {% else %}
+            ساري
+            {% endif %}
+        </td>
         <td>
             <a href="{% url 'contract_edit' contract.id %}">{% trans "تعديل" %}</a>
             <a href="{% url 'contract_delete' contract.id %}">{% trans "حذف" %}</a>
