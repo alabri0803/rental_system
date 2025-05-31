@@ -3,15 +3,16 @@
 {% block title %}{% trans "المباني" %}{% endblock %}
 {% block content %}
 <h2>قائمة المباني</h2>
-<a href="{% url 'building_add' %}">{% trans "إضافة مبنى جديد" %}</a>
-<a href="{% url 'export_buildings_excel' %}">{% trans "تصدير المباني" %}</a>
-<a href="{% url 'export_units_excel' %}">{% trans "تصدير الوحدات" %}</a>
-<table>
+<a href="{% url 'building_add' %}" class="btn btn-primary mb-3">{% trans "إضافة مبنى جديد" %}</a>
+<table class="table table-bordered table-striped text-center align-middle">
+    <thead class="table-dark">
     <tr>
         <th>{% trans "الاسم" %}</th>
         <th>{% trans "العنوان" %}</th>
         <th>{% trans "خيارات" %}</th>
     </tr>
+        </thead>
+    <tbody>
     {% for building in buildings %}
     <tr>
         <td>{{ building.name }}</td>
@@ -21,6 +22,11 @@
             <a href="{% url 'building_delete' building.id %}">{% trans "حذف" %}</a>
         </td>
     </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">{% trans "لا توجد مباني" %}</td>
+        </tr>
     {% endfor %}
+        </tbody>
 </table>
 {% endblock %}
