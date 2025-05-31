@@ -4,26 +4,28 @@
 {% block content %}
 <h2 class="mb-4">{% trans "لوحة التحكم" %}</h2>
 <div class="row g-4 mb-4">
-  <div class="col-md-3"><div class="card bg-primary text-white text-center"><div class="card-body">{% trans "المباني" %}:<strong>{{ total_buildings }}</strong>
+  <div class="col-md-3">
+    <div class="card bg-primary text-white text-center">
+      <div class="card-body">{% trans "المباني" %}:<strong>{{ total_buildings }}</strong>
       </div>
     </div>
   </div>
   <div class="col-md-3">
-    <div class="card text-white bg-info h-100">
+    <div class="card bg-info text-white text-center">
       <div class="card-body">{% trans "الوحدات" %}
         <strong>{{ total_units }}</strong>
       </div>
     </div>
   </div>
   <div class="col-md-3">
-    <div class="card text-white bg-success h-100">
+    <div class="card bg-success text-white text-center">
       <div class="card-body">{% trans "المستأجرين" %}
         <strong>{{ total_tenants }}</strong>
       </div>
     </div>
   </div>
   <div class="col-md-4">
-    <div class="card text-white bg-secondary h-100">
+    <div class="card bg-secondary text-white text-center">
       <div class="card-body">{% trans "العقود" %}
         <strong">{{ total_contracts }}</strong>
       </div>
@@ -47,6 +49,7 @@
       </div>
     </div>
   </div>
+</div>
   <script>
     const pieCtx = document.getElementById('contractsPieChart').getContext('2d');
     new Chart(pieCtx, {
@@ -64,6 +67,28 @@
           legend: { position: 'bottom'}
         }
       }
+    });
+    const barCtx = document.getElementById('summaryBarChart').getContext('2d');
+    new Chart(barCtx, {
+      type: 'bar',
+      data: {
+        labels: ['{% trans "المباني" %}', '{% trans "الوحدات" %}', '{% trans "المستأجرين" %}'],
+        datasets: [{
+          label: '{% trans "العدد" %}',
+          data: [{{ total_buildings }}, {{ total_units }}, {{ total_tenants }
+        }],
+          backgroundColor: ['#0d6efd', '#0dcaf0', '#198754']
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { stepSize: 1 }
+        }
+      }
+    }
     });
   </script>
 {% endblock %}
