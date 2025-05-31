@@ -1,9 +1,8 @@
-{% load i18n %}
-        <div class="list-group">
-          {% if user.is_authenticated %}
-          <a href="{% url 'dashboard' %}" class="list-group-item list-group-item-action">{% trans "لوحة التحكم" %}</a>
-          <a href="{% url 'building_list' %}" class="list-group-item list-group-item-action">{% trans "المباني" %}</a>
-          <a href="{% url 'tenant_list' %}" class="list-group-item list-group-item-action">{% trans "المستأجرين" %}</a>
-          <a href="{% url 'contract_list' %}" class="list-group-item list-group-item-action">{% trans "العقود" %}</a>
-          {% endif %}
-        </div>
+<div class="list-group list-group-flush mt-3">
+  {% if user.is_authenticated %}
+    <a href="{% url 'dashboard' %}" class="list-group-item list-group-item-action">📊 لوحة التحكم</a>
+    <a href="{% url 'building_list' %}" class="list-group-item list-group-item-action">🏢 المباني</a>
+    <a href="{% url 'tenant_list' %}" class="list-group-item list-group-item-action">👤 المستأجرين</a>
+    <a href="{% url 'contract_list' %}" class="list-group-item list-group-item-action">📄 العقود</a>
+  {% endif %}
+</div>

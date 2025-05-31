@@ -1,43 +1,38 @@
-{% load i18n %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'dashboard' %}">{% trans "نظام الإيجارات" %}</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="{% url 'dashboard' %}">نظام الإيجارات</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-  {% if user.is_authenticated %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'building_list' %}">{% trans "المباني" %}</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'tenant_list' %}">{% trans "المستأجرين" %}</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'contract_list' %}">{% trans "العقود" %}</a>
-        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'building_list' %}">المباني</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'tenant_list' %}">المستأجرين</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'contract_list' %}">العقود</a></li>
         {% endif %}
       </ul>
+
       <ul class="navbar-nav">
         {% if user.is_authenticated %}
         <li class="nav-item">
-          <span class="nav-link">
-            {% trans "مرحبًا" %}, {{ user.username }}
-          </span>
+          <span class="nav-link">مرحبًا، {{ user.username }}</span>
         </li>
-          <li class="nav-item">
-            <a class="nav-link text-danger" href="{% url 'logout' %}">{% trans "تسجيل الخروج" %}</a>
-          </li>
+        <li class="nav-item">
+          <a class="nav-link text-danger" href="{% url 'logout' %}">تسجيل الخروج</a>
+        </li>
         {% else %}
-          <li class="nav-item">
-            <a class="nav-link text-light" href="{% url 'login' %}">{% trans "تسجيل الدخول" %}</a>
-          </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">تسجيل الدخول</a>
+        </li>
         {% endif %}
+
         <li class="nav-item">
           <form action="{% url 'set_language' %}" method="post" class="d-flex align-items-center">
             {% csrf_token %}
-            <select name="language" onchange="this.form.submit()" class="form-select form-select-sm me-2">
+            <select name="language" onchange="this.form.submit()" class="form-select form-select-sm ms-2">
               <option value="ar" {% if LANGUAGE_CODE == 'ar' %}selected{% endif %}>العربية</option>
               <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
             </select>
