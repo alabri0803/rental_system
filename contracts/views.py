@@ -58,11 +58,11 @@ def export_contracts_excel(request):
   wb.save(response)
   return response
   
-class ContractListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class ContractListView(LoginRequiredMixin, ListView):
   model = Contract
   template_name = 'contracts/contract_list.html'
 
-class ContractCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class ContractCreateView(LoginRequiredMixin, CreateView):
   model = Contract
   form_class = ContractForm
   template_name = 'contracts/contract_form.html'
