@@ -1,3 +1,78 @@
-from django.db import models
+from datetime import date
 
-# Create your models here.
+from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+
+class Contract(models.Model):
+  tenant = models.ForeignKey(
+    'tenants.Tenant',
+    on_delete=models.CASCADE,
+    verbose_name=_("المستأجر")
+  )
+  unit = models.ForeignKey(
+    'buildings.Unit',
+    on_delete=models.CASCADE,
+    verbose_name=_("الوحدة")
+  )
+  start_date = models.DateField(
+    default=date.today,
+    verbose_name=_("تاريخ البداية")
+  )
+  end_date = models.DateField(
+    verbose_name=_("تاريخ النهاية")
+  )
+  monthly_rent = models.DecimalField(
+    max_digits=10,
+    decimal_places=2,
+    verbose_name=_("الإيجار الشهري")
+  )
+  admin_fees = models.DecimalField(
+    max_digits=10,
+    decimal_places=2,
+    verbose_name=_("رسوم إدارية")
+  )
+
+  class Meta:
+    verbose_name = _("عقد")
+    verbose_name_plural = _("العقود")
+
+  def __str__(self):
+    return f"عقد {self.tenant.full_name} - {self.unit}"
+
+  @property
+  def contract_duration(self):
+    delta = self.end_date - self.start_date
+    years = delta.days // 365
+    months = (delta.days % 365) // 30
+    days = (delta.days % 365) % 30
+    return f"{years} سنة و {months} شهر و {days} يوم"
+
+  @property
+  def time_remaining(self):
+    today = date.today()
+    if self.end_date < today:
+      return "منتهي"
+    delta = self.end_date - today
+    return f"{delta.days} يوم"
+
+  @property
+  def is_expired(self):
+    return date.today() > self.end_date
+
+  @property
+  def status_color(self):
+    today = date.today()
+    remaining_days = (self.end_date - today).days
+    if remaining_days <= 0:
+      return "red"
+    elif remaining_days <= 30:
+      return "orange"
+    return "green"
+
+  @property
+  def total_amount(self):
+    rent_annual = self.monthly_rent * 12
+    commission = rent_annual * 0.03
+    total = rent_annual + commission + self.admin_fees + 5
+    return round(total, 2)

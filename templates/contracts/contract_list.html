@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "قائمة العقود" %}{% endblock %}
+{% block content %}
+<h2>{% trans "قائمة العقود" %}</h2>
+<a href="{% url 'contract_add' %}">{% trans "إضافة عقد جديد" %}</a>
+<table border="1">
+    <tr>
+        <th>{% trans "المستأجر" %}</th>
+        <th>{% trans "الوحدة" %}</th>
+        <th>{% trans "بداية" %}</th>
+        <th>{% trans "نهاية" %}</th>
+        <th>{% trans "المدة" %}</th>
+        <th>{% trans "متبقي" %}</th>
+        <th>{% trans "المبلغ الكامل" %}</th>
+        <th>{% trans "الحالة" %}</th>
+        <th>{% trans "خيارات" %}</th>
+    </tr>
+    {% for contract in contracts %}
+    <tr style="background-color: {{ contract.status_color }}; color: white;">
+        <td>{{ contract.tenant }}</td>
+        <td>{{ contract.unit }}</td>
+        <td>{{ contract.start_date }}</td>
+        <td>{{ contract.end_date }}</td>
+        <td>{{ contract.contract_duration }}</td>
+        <td>{{ contract.time_remaining }}</td>
+        <td>{{ contract.total_amount }}</td>
+        <td>
+          {% if contract.is_expired %}منتهي{% elif contract.status_color == 'orange' %}قريب الانتهاء{% else %}ساري{% endif %}
+        </td>
+        <td>
+            <a href="{% url 'contract_edit' contract.id %}">{% trans "تعديل" %}</a>
+            <a href="{% url 'contract_delete' contract.id %}">{% trans "حذف" %}</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
