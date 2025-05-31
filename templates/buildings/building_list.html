@@ -4,6 +4,8 @@
 {% block content %}
 <h2>قائمة المباني</h2>
 <a href="{% url 'building_add' %}">{% trans "إضافة مبنى جديد" %}</a>
+<a href="{% url 'export_buildings_excel' %}">{% trans "تصدير المباني" %}</a>
+<a href="{% url 'export_units_excel' %}">{% trans "تصدير الوحدات" %}</a>
 <table>
     <tr>
         <th>{% trans "الاسم" %}</th>
