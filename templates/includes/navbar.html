@@ -1,16 +1,51 @@
 {% load i18n %}
-<nav>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'dashboard' %}">{% trans "نظام الإيجارات" %}</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
   {% if user.is_authenticated %}
-| {{ user.username }} مرحباً
-    <a href="{% url 'logout' %}">{% trans "تسجيل الخروج" %}</a>
-  {% else %}
-    <a href="{% url 'login' %}">{% trans "تسجيل الدخول" %}</a>
-  {% endif %}
-  <form action="{% url 'set_language' %}" method="post">
-      {% csrf_token %}
-      <select name="language" onchange="this.form.submit()">
-        <option value="ar" {% if LANGUAGE_CODE == 'ar' %}selected{% endif %}>العربية</option>
-        <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
-      </select>
-  </form>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'building_list' %}">{% trans "المباني" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'tenant_list' %}">{% trans "المستأجرين" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'contract_list' %}">{% trans "العقود" %}</a>
+        </li>
+        {% endif %}
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <form action="{% url 'set_language' %}" method="post" class="d-flex align-items-center">
+            {% csrf_token %}
+            <select name="language" onchange="this.form.submit()" class="form-select form-select-sm me-2">
+              <option value="ar" {% if LANGUAGE_CODE == 'ar' %}selected{% endif %}>العربية</option>
+              <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
+            </select>
+          </form>
+        </li>
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link text-danger" href="{% url 'logout' %}">{% trans "تسجيل الخروج" %}</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link text-light" href="{% url 'login' %}">{% trans "تسجيل الدخول" %}</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
 </nav>
+<div class="container">
+  {% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-success mt-3">
+        {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endfor %}
+      {% endif %}
+</div
