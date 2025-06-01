@@ -29,9 +29,9 @@ urlpatterns += i18n_patterns(
     path('buildings/', include('buildings.urls')),
     path('contracts/', include('contracts.urls')),
     path('tenants/', include('tenants.urls')),
-    #path('payments/', include('payments.urls')),
+    path('payments/', include('payments.urls')),
     path('i18n/', include('django.conf.urls.i18n')),
-    prefix_default_language=False
+    prefix_default_language=True,
 )
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

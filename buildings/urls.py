@@ -7,8 +7,6 @@ from .views import (
   BuildingUpdateView,
   FloorCreateView,
   UnitCreateView,
-  export_buildings_excel,
-  export_units_excel,
 )
 
 urlpatterns = [
@@ -19,7 +17,4 @@ urlpatterns = [
   
   path('floors/add/', FloorCreateView.as_view(), name='floor_add'),
   path('units/add/', UnitCreateView.as_view(), name='unit_add'),
-
-  path('export/', export_buildings_excel, name='export_buildings_excel'),
-  path('units/export/', export_units_excel, name='export_units_excel'),
 ]
