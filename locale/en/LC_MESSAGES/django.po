@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-31 11:42+0000\n"
+"POT-Creation-Date: 2025-06-01 09:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,363 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-#: core/templates/base.html:7
-msgid "نظام الإيجارات"
-msgstr ""
+
+#: accounts/models.py:8
+msgid "مشرف"
+msgstr "Admin"
+
+#: accounts/models.py:9
+msgid "موظف"
+msgstr "Employee"
+
+#: accounts/models.py:15
+msgid "المستخدم"
+msgstr "User"
+
+#: accounts/models.py:21 tenants/models.py:17
+msgid "رقم الهاتف"
+msgstr "Phone number"
+
+#: accounts/models.py:27
+msgid "الدور"
+msgstr "Role"
+
+#: accounts/models.py:33
+msgid "الصورة الشخصية"
+msgstr "Profile picture"
+
+#: accounts/models.py:40
+msgid "الملف الشخصي"
+msgstr "Profile"
+
+#: accounts/models.py:41
+msgid "الملفات الشخصية"
+msgstr "Profiles"
+
+#: buildings/models.py:8
+msgid "اسم المبني"
+msgstr "Building name"
+
+#: buildings/models.py:11 templates/buildings/building_list.html:11
+#: tenants/models.py:25
+msgid "العنوان"
+msgstr "Address"
+
+#: buildings/models.py:15
+msgid "مبني"
+msgstr "Building"
+
+#: buildings/models.py:16 templates/buildings/building_list.html:3
+#: templates/core/dashboard.html:9 templates/core/dashboard.html:76
+msgid "المباني"
+msgstr "Buildings"
+
+#: buildings/models.py:26
+msgid "المبني"
+msgstr "Building"
+
+#: buildings/models.py:29
+msgid "رقم الطابق"
+msgstr "Floor number"
+
+#: buildings/models.py:33
+msgid "طابق"
+msgstr "Floor"
+
+#: buildings/models.py:34
+msgid "الطوابق"
+msgstr "Floors"
+
+#: buildings/models.py:44
+msgid "الطابق"
+msgstr "Floor"
+
+#: buildings/models.py:48
+msgid "رقم الوحدة"
+msgstr "Unit number"
+
+#: buildings/models.py:52
+msgid "هل تجارية؟"
+msgstr "Is commercial?"
+
+#: buildings/models.py:56
+msgid "وحدة"
+msgstr "Unit"
+
+#: buildings/models.py:57 templates/core/dashboard.html:15
+#: templates/core/dashboard.html:76
+msgid "الوحدات"
+msgstr "Units"
+
+#: contracts/models.py:13 templates/contracts/contract_list.html:10
+msgid "المستأجر"
+msgstr "Tenant"
+
+#: contracts/models.py:18 templates/contracts/contract_list.html:11
+msgid "الوحدة"
+msgstr "Unit"
+
+#: contracts/models.py:22
+msgid "تاريخ البداية"
+msgstr "Start date"
+
+#: contracts/models.py:25
+msgid "تاريخ النهاية"
+msgstr "End date"
+
+#: contracts/models.py:30
+msgid "الإيجار الشهري (ريال عماني)"
+msgstr "Monthly rent (OMR)"
+
+#: contracts/models.py:34
+msgid "عقد"
+msgstr "Contract"
+
+#: contracts/models.py:35 templates/core/dashboard.html:29
+msgid "العقود"
+msgstr "Contracts"
+
+#: contracts/models.py:81
+msgid "العقد"
+msgstr "Contract"
+
+#: contracts/models.py:84
+msgid "الشهر"
+msgstr "Month"
+
+#: contracts/models.py:87
+msgid "السنة"
+msgstr "Year"
+
+#: contracts/models.py:91
+msgid "تاريخ الإصدار"
+msgstr "Issue date"
+
+#: contracts/models.py:95
+msgid "مدفوع"
+msgstr "Paid"
+
+#: contracts/models.py:100
+msgid "فاتورة"
+msgstr "Invoice"
+
+#: contracts/models.py:101
+msgid "الفواتير"
+msgstr "Invoices"
+
+#: payments/models.py:12 templates/payments/payment_list.html:10
+msgid "الفاتورة"
+msgstr "Invoice"
+
+#: payments/models.py:17
+msgid "المبلغ المدفوع (ريال عماني)"
+msgstr "Paid amount (OMR)"
+
+#: payments/models.py:21 templates/payments/payment_list.html:12
+msgid "تاريخ الدفع"
+msgstr "Payment date"
+
+#: payments/models.py:25 templates/payments/payment_list.html:13
+msgid "طريقة الدفع"
+msgstr "Payment method"
+
+#: payments/models.py:32
+msgid "دفعة"
+msgstr "Payment"
+
+#: payments/models.py:33
+msgid "المدفوعات"
+msgstr "Payments"
+
+#: templates/accounts/login.html:3 templates/accounts/login.html:8
+msgid "تسجيل الدخول"
+msgstr "Login"
+
+#: templates/accounts/login.html:13
+msgid " الدخول"
+msgstr " Login"
+
+#: templates/buildings/building_form.html:3
+#: templates/buildings/building_form.html:5
+#: templates/buildings/building_list.html:6
+msgid "إضافة مبنى جديد"
+msgstr "Add new building"
+
+#: templates/buildings/building_form.html:9
+#: templates/contracts/contract_form.html:9
+#: templates/tenants/tenant_form.html:9
+msgid "حفظ"
+msgstr "Save"
+
+#: templates/buildings/building_list.html:10
+#: templates/tenants/tenant_list.html:10
+msgid "الاسم"
+msgstr "Name"
+
+#: templates/buildings/building_list.html:12
+#: templates/contracts/contract_list.html:18
+#: templates/tenants/tenant_list.html:13
+msgid "خيارات"
+msgstr "Options"
+
+#: templates/buildings/building_list.html:21
+#: templates/contracts/contract_list.html:48
+#: templates/tenants/tenant_list.html:23
+msgid "تعديل"
+msgstr "Edit"
+
+#: templates/buildings/building_list.html:22
+#: templates/buildings/confirm_delete.html:9
+#: templates/contracts/confirm_delete.html:9
+#: templates/contracts/contract_list.html:49
+#: templates/tenants/confirm_delete.html:9
+#: templates/tenants/tenant_list.html:24
+msgid "حذف"
+msgstr "Delete"
+
+#: templates/buildings/building_list.html:27
+msgid "لا توجد مباني"
+msgstr "No buildings found"
+
+#: templates/buildings/confirm_delete.html:3
+#: templates/buildings/confirm_delete.html:5
+#: templates/contracts/confirm_delete.html:3
+#: templates/contracts/confirm_delete.html:5
+#: templates/tenants/confirm_delete.html:3
+#: templates/tenants/confirm_delete.html:5
+msgid "تأكيد الحذف"
+msgstr "Confirm deletion"
+
+#: templates/buildings/confirm_delete.html:6
+msgid "هل أنت متأكد أنك تريد حذف هذا المبنى؟"
+msgstr "Are you sure you want to delete this building?"
+
+#: templates/buildings/confirm_delete.html:11
+msgid "العودة إلى القائمة"
+msgstr "Back to list"
+
+#: templates/contracts/confirm_delete.html:6
+msgid "هل أنت متأكد أنك تريد حذف هذا العقد؟"
+msgstr "Are you sure you want to delete this contract?"
+
+#: templates/contracts/contract_form.html:3
+#: templates/contracts/contract_form.html:5
+#: templates/contracts/contract_list.html:6
+msgid "إضافة عقد جديد"
+msgstr "Add new contract"
+
+#: templates/contracts/contract_list.html:3
+#: templates/contracts/contract_list.html:5
+msgid "قائمة العقود"
+msgstr "Contracts list"
+
+#: templates/contracts/contract_list.html:12
+msgid "بداية"
+msgstr "Start"
+
+#: templates/contracts/contract_list.html:13
+msgid "نهاية"
+msgstr "End"
+
+#: templates/contracts/contract_list.html:14
+msgid "المدة"
+msgstr "Duration"
+
+#: templates/contracts/contract_list.html:15
+msgid "متبقي"
+msgstr "Remaining"
+
+#: templates/contracts/contract_list.html:16
+msgid "المبلغ"
+msgstr "Amount"
+
+#: templates/contracts/contract_list.html:17
+msgid "الحالة"
+msgstr "Status"
+
+#: templates/contracts/contract_list.html:54
+msgid "لا توجد عقود"
+msgstr "No contracts found"
+
+#: templates/core/dashboard.html:3 templates/core/dashboard.html:5
+msgid "لوحة التحكم"
+msgstr "Dashboard"
+
+#: templates/core/dashboard.html:22 templates/core/dashboard.html:76
+#: tenants/models.py:30
+msgid "المستأجرين"
+msgstr "Tenants"
+
+#: templates/core/dashboard.html:37
+msgid "نسبة العقود"
+msgstr "Contracts percentage"
+
+#: templates/core/dashboard.html:45
+msgid "ملخص البيانات"
+msgstr "Data summary"
+
+#: templates/core/dashboard.html:58
+msgid "سارية"
+msgstr "Active"
+
+#: templates/core/dashboard.html:58
+msgid "قريب الانتهاء"
+msgstr "About to expire"
+
+#: templates/core/dashboard.html:58
+msgid "منتهية"
+msgstr "Expired"
+
+#: templates/core/dashboard.html:78
+msgid "العدد"
+msgstr "Count"
+
+#: templates/payments/payment_list.html:3
+#: templates/payments/payment_list.html:5
+msgid "قائمة المدفوعات"
+msgstr "Payments list"
+
+#: templates/payments/payment_list.html:6
+msgid "إضافة دفعة جديدة"
+msgstr "Add new payment"
+
+#: templates/payments/payment_list.html:11
+msgid "المبلغ المدفوع"
+msgstr "Paid amount"
+
+#: templates/tenants/confirm_delete.html:6
+msgid "هل أنت متأكد أنك تريد حذف هذا المستأجر؟"
+msgstr "Are you sure you want to delete this tenant?"
+
+#: templates/tenants/tenant_form.html:3 templates/tenants/tenant_form.html:5
+#: templates/tenants/tenant_list.html:6
+msgid "إضافة مستأجر جديد"
+msgstr "Add new tenant"
+
+#: templates/tenants/tenant_list.html:3 templates/tenants/tenant_list.html:5
+msgid "قائمة المستأجرين"
+msgstr "Tenants list"
+
+#: templates/tenants/tenant_list.html:11
+msgid " الهاتف"
+msgstr " Phone"
+
+#: templates/tenants/tenant_list.html:12
+msgid "البريد "
+msgstr "Email "
+
+#: tenants/models.py:8
+msgid "الاسم الكامل"
+msgstr "Full name"
+
+#: tenants/models.py:13
+msgid "رقم الهوية الوطنية"
+msgstr "National ID number"
+
+#: tenants/models.py:22
+msgid "البريد الإلكتروني"
+msgstr "Email"
+
+#: tenants/models.py:29
+msgid "مستأجر"
+msgstr "Tenant"
