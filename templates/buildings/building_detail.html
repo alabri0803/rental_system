@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "تفاصيل المبنى" %}{% endblock %}
+{% block content %}
+<h2>{{ building.name }}</h2>
+<p><strong>العنوان:</strong> {{ building.address }}</p>
+<hr>
+<h4>{% trans "الطوابق والوحدات" %}</h4>
+{% for floor in floors %}
+<div class="mb-3">
+  <strong>طابق {{ floor.number }}</strong>
+  <ul>
+    {% for unit in floor.units.all %}
+    <li>{{ unit.number }} - {{ unit.is_commercial|yesno:"تجاري,سكني" }}</li>
+    {% empty %}
+    <li>{% trans "لا توجد وحدات في هذا الطابق" %}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endfor %}
+<a href="{% url 'building_list' %}" class="btn btn-secondary">
+  {% trans "العودة إلى القائمة" %}
+</a>
+{% endblock %}

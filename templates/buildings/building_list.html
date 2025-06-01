@@ -2,13 +2,26 @@
 {% load i18n %}
 {% block title %}{% trans "المباني" %}{% endblock %}
 {% block content %}
-<h2>قائمة المباني</h2>
-<a href="{% url 'building_add' %}" class="btn btn-primary mb-3">{% trans "إضافة مبنى جديد" %}</a>
-<table class="table table-bordered table-striped text-center">
+<h2 class="mb-3">{% trans "المباني" %}</h2>
+<form method="get" class="row mb-4">
+    <div class="col-md-6">
+        <input type="text" name="q" class="form-control" placeholder="{% trans 'ابحث بالاسم أو العنوان' %}" value="{{ request.GET.q }}">
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">{% trans 'بحث' %}</button>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="{% url 'building_add' %}" class="btn btn-success">{% trans 'إضافة مبنى جديد' %}</a>
+    </div>
+</form>
+<table class="table table-bordered table-hover text-center align-middle">
     <thead class="table-dark">
     <tr>
         <th>{% trans "الاسم" %}</th>
         <th>{% trans "العنوان" %}</th>
+        <th>{% trans "الوحدات" %}</th>
+        <th>{% trans "تجارية" %}</th>
+        <th>{% trans "سكنية" %}</th>
         <th>{% trans "خيارات" %}</th>
     </tr>
         </thead>
@@ -17,7 +30,11 @@
     <tr>
         <td>{{ building.name }}</td>
         <td>{{ building.address }}</td>
+        <td>{{ building.total_units }}</td>
+        <td>{{ building.commercial_units }}</td>
+        <td>{{ building.residential_units }}</td>
         <td>
+            <a href="{% url 'building_detail' building.id %}">{% trans "تفاصيل" %}</a>
             <a href="{% url 'building_edit' building.id %}">{% trans "تعديل" %}</a>
             <a href="{% url 'building_delete' building.id %}">{% trans "حذف" %}</a>
         </td>
@@ -29,4 +46,25 @@
     {% endfor %}
         </tbody>
 </table>
+{% if is_paginated %}
+<nav>
+    <ul class="pagination justify-content-center">
+        {% if is_paginated %}
+        <li class="page-item">
+            <a class="page-link" href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}"><<</a>
+        </li>
+        {% endif %}
+        {% for num in paginator.page_range %}
+        <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+            <a class="page-link" href="?q={{ request.GET.q }}&page={{ num }}">{{ num }}</a>
+        </li>
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}">>></a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
 {% endblock %}

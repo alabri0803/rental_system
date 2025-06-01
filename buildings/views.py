@@ -1,6 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count, Q
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+from django.views.generic import (
+  CreateView,
+  DeleteView,
+  DetailView,
+  ListView,
+  UpdateView,
+)
 
 from .forms import BuildingForm, FloorForm, UnitForm
 from .models import Building, Floor, Unit
@@ -10,6 +17,40 @@ class BuildingListView(LoginRequiredMixin, ListView):
   model = Building
   template_name = 'buildings/building_list.html'
   context_object_name = 'buildings'
+  paginate_by = 10
+
+  def get_queryset(self):
+      queryset = Building.objects.annotate(
+          total_units=Count('floors__units', distinct=True),
+          commercial_units=Count(
+              'floors__units',
+              filter=Q(floors__units__is_commercial=True),
+              distinct=True
+          ),
+          residential_units=Count(
+              'floors__units',
+              filter=Q(floors__units__is_commercial=False),
+              distinct=True
+          )
+      )
+
+      search_query = self.request.GET.get('q')
+      if search_query:
+          queryset = queryset.filter(
+              Q(name__icontains=search_query) |
+              Q(address__icontains=search_query)
+          )
+      return queryset
+
+class BuildingDetailView(LoginRequiredMixin, DetailView):
+  model = Building
+  template_name = 'buildings/building_detail.html'
+  context_object_name = 'building'
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['floors'] = self.object.floors.prefetch_related('units').order_by('number')
+    return context
 
 class BuildingCreateView(LoginRequiredMixin, CreateView):
   model = Building
