@@ -18,6 +18,7 @@ from .models import Contract, Invoice
 class ContractListView(LoginRequiredMixin, ListView):
   model = Contract
   template_name = 'contracts/contract_list.html'
+  context_object_name = 'contracts'
 
 class ContractCreateView(LoginRequiredMixin, CreateView):
   model = Contract

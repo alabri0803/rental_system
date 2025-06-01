@@ -9,6 +9,7 @@ from .models import Tenant
 class TenantListView(LoginRequiredMixin, ListView):
   model = Tenant
   template_name = 'tenants/tenant_list.html'
+  context_object_name = 'tenants'
 
 class TenantCreateView(LoginRequiredMixin, CreateView):
   model = Tenant
