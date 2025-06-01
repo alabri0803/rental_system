@@ -9,6 +9,7 @@ from .models import Building, Floor, Unit
 class BuildingListView(LoginRequiredMixin, ListView):
   model = Building
   template_name = 'buildings/building_list.html'
+  context_object_name = 'buildings'
 
 class BuildingCreateView(LoginRequiredMixin, CreateView):
   model = Building

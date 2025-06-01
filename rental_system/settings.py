@@ -137,3 +137,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/accounts/login'
 LOGIN_REDIRECT_URL = '/'
+CSRF_TRUSTED_ORIGINS = [
+    'https://96e941ed-e76d-4444-a9db-b79042201bd8-00-2gz61m9s8wvuw.sisko.replit.dev',
+    'https://*.replit.dev'
+]
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
