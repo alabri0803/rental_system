@@ -1,6 +1,4 @@
-import openpyxl
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
@@ -8,39 +6,9 @@ from .forms import BuildingForm, FloorForm, UnitForm
 from .models import Building, Floor, Unit
 
 
-def export_buildings_excel(request):
-  wb = openpyxl.Workbook()
-  ws = wb.active
-  ws.title = "المباني"
-  ws.append(["اسم المبني", "العنوان"])
-  for building in Building.objects.all():
-    ws.append([building.name, building.address])
-  response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-  response['Content-Disposition'] = 'attachment; filename=buildings.xlsx'
-  wb.save(response)
-  return response
-
-def export_units_excel(request):
-  wb = openpyxl.Workbook()
-  ws = wb.active
-  ws.title = "الوحدات"
-  ws.append(["رقم الوحدة", "الطابق", "المبني", "النوع"])
-  for unit in Unit.objects.select_related('floor__building').all():
-    ws.append([
-      unit.unit_number,
-      unit.floor.number,
-      unit.floor.building.name,
-      "تجارية" if unit.is_commercial else "سكنية",
-    ])
-  response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-  response['Content-Disposition'] = 'attachment; filename=units.xlsx'
-  wb.save(response)
-  return response
-  
 class BuildingListView(LoginRequiredMixin, ListView):
   model = Building
   template_name = 'buildings/building_list.html'
-
 
 class BuildingCreateView(LoginRequiredMixin, CreateView):
   model = Building
@@ -70,3 +38,4 @@ class UnitCreateView(LoginRequiredMixin, CreateView):
   form_class = UnitForm
   template_name = 'buildings/unit_form.html'
   success_url = reverse_lazy('building_list')
+  

@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 
 
 class CustomLoginView(LoginView):
-  template_name = 'login.html'
+  template_name = 'accounts/login.html'
   redirect_authenticated_user = True
   success_url = reverse_lazy('dashboard')
 
