@@ -11,9 +11,14 @@
         <th>{% trans "الوحدة" %}</th>
         <th>{% trans "بداية" %}</th>
         <th>{% trans "نهاية" %}</th>
+        <th>{% trans "شهرياً" %}</th>
+        <th>{% trans "سنوياً" %}</th>
+        <th>{% trans "رسوم التسجيل" %}</th>
+        <th>{% trans "الإجمالي" %}</th>
         <th>{% trans "المدة" %}</th>
-        <th>{% trans "متبقي" %}</th>
-        <th>{% trans "المبلغ" %}</th>
+        <th>{% trans "متبقي (يوم)" %}</th>
+        <th>{% trans "متبقي (شهر)" %}</th>
+        <th>{% trans "متبقي (سنة)" %}</th>
         <th>{% trans "الحالة" %}</th>
         <th>{% trans "خيارات" %}</th>
     </tr>
@@ -28,13 +33,18 @@
         {% else %}
         class="table-success" 
         {% endif %}>
-        <td>{{ contract.tenant }}</td>
+        <td>{{ contract.tenant.full_name }}</td>
         <td>{{ contract.unit }}</td>
         <td>{{ contract.start_date }}</td>
         <td>{{ contract.end_date }}</td>
+        <td>{{ contract.monthly_rent_display }}</td>
+        <td>{{ contract.yearly_rent_display }}</td>
+        <td>{{ contract.registration_fee_display }}</td>
+        <td>{{ contract.total_amount_display }}</td>
         <td>{{ contract.contract_duration }}</td>
-        <td>{{ contract.time_remaining }}</td>
-        <td>{{ contract.total_amount }}</td>
+        <td>{{ contract.remaining_days }}</td>
+        <td>{{ contract.remaining_months }}</td>
+        <td>{{ contract.remaining_years }}</td>
         <td>
           {% if contract.is_expired %}
             منتهي
@@ -45,8 +55,8 @@
             {% endif %}
         </td>
         <td>
-            <a href="{% url 'contract_edit' contract.id %}">{% trans "تعديل" %}</a>
-            <a href="{% url 'contract_delete' contract.id %}">{% trans "حذف" %}</a>
+            <a href="{% url 'contract_edit' contract.id %}" class="btn btn-primary btn-sm">{% trans "تعديل" %}</a>
+            <a href="{% url 'contract_delete' contract.id %}" class="btn btn-danger btn-sm">{% trans "حذف" %}</a>
         </td>
     </tr>
         {% empty %}

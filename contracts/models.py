@@ -1,10 +1,12 @@
 from datetime import date
 from decimal import Decimal
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-OFFICE_FEE = 5
-ADMIN_FEE = 1
+OFFICE_FEE = Decimal('5.000')
+ADMIN_FEE = Decimal('1.000')
+COMMISSION_RATE = Decimal('0.03')
 
 class Contract(models.Model):
   tenant = models.ForeignKey(
@@ -26,7 +28,7 @@ class Contract(models.Model):
   )
   monthly_rent = models.DecimalField(
     max_digits=10,
-    decimal_places=2,
+    decimal_places=3,
     verbose_name=_("الإيجار الشهري (ريال عماني)")
   )
   
@@ -38,20 +40,55 @@ class Contract(models.Model):
     return f"عقد {self.tenant.full_name} - {self.unit}"
 
   @property
-  def contract_duration(self):
-    delta = self.end_date - self.start_date
-    years = delta.days // 365
-    months = (delta.days % 365) // 30
-    days = (delta.days % 365) % 30
-    return f"{years} سنة {months} شهر {days} يوم"
+  def yearly_rent_total(self):
+    return self.monthly_rent * 12
 
   @property
-  def time_remaining(self):
+  def monthly_rent_total(self):
+    return self.monthly_rent
+
+  @property
+  def registration_fee(self):
+    base = self.yearly_rent_total
+    commission = base * COMMISSION_RATE
+    return commission + OFFICE_FEE + ADMIN_FEE
+
+  @property
+  def total_amount(self):
+    return self.yearly_rent_total + self.registration_fee
+
+  def format_omr(self, amount):
+    return f"{amount:,.3f} ريال عماني"
+
+  @property
+  def total_amount_display(self):
+    return self.format_omr(self.total_amount)
+
+  @property
+  def monthly_rent_display(self):
+    return self.format_omr(self.monthly_rent)
+
+  @property
+  def yearly_rent_total_display(self):
+    return self.format_omr(self.yearly_rent_total)
+
+  @property
+  def registration_fee_display(self):
+    return self.format_omr(self.registration_fee)
+
+  @property
+  def remaining_days(self):
     today = date.today()
-    if self.end_date < today:
-      return "منتهي"
     delta = self.end_date - today
-    return f"{delta.days} يوم"
+    return max(0, delta.days)
+
+  @property
+  def remaining_months(self):
+    return self.remaining_days // 30
+
+  @property
+  def remaining_years(self):
+    return self.remaining_days // 365
 
   @property
   def is_expired(self):
@@ -59,20 +96,21 @@ class Contract(models.Model):
 
   @property
   def status_color(self):
-    today = date.today()
-    remaining_days = (self.end_date - today).days
-    if remaining_days <= 0:
+    days = self.remaining_days
+    if days <= 0:
       return "red"
-    elif remaining_days <= 30:
+    elif days <= 30:
       return "orange"
     return "green"
 
   @property
-  def total_amount(self):
-    base = self.monthly_rent * 12
-    commission = base * Decimal(0.03)
-    return round(base + commission + OFFICE_FEE + ADMIN_FEE, 2)
-
+  def contract_duration(self):
+    delta = self.end_date - self.start_date
+    years = delta.days // 365
+    months = (delta.days % 365) // 30
+    days = (delta.days % 365) % 30
+    return f"{years} سنة و {months} شهر و {days} يوم"
+  
 class Invoice(models.Model):
   contract = models.ForeignKey(
     Contract,
