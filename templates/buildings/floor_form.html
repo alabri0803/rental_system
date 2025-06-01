@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% block title %}{% trans "إضافة طابق" %}{% endblock %}
+{% block content %}
+<div class="container">
+  <h2 class="mb-4">
+    {% trans "إضافة طابق" %}
+  </h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">
+          {% trans "اختر المبني" %}
+        </label>
+        {{ form.building|add_class:"form-select" }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">
+          {% trans "رقم الطابق" %}
+        </label>
+        {{ form.number|add_class:"form-control" }}
+      </div>
+    </div>
+    <div class="d-flex justify-content-between">
+      <a href="{% url 'building_list' %}" class="btn btn-secondary">
+        {% trans "العودة إلى القائمة" %}
+      </a>
+      <button type="submit" class="btn btn-primary">
+        {% trans "حفظ" %}
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}
