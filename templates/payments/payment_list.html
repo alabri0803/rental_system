@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "قائمة المدفوعات" %}{% endblock %}
+{% block content %}
+<h2>{% trans "قائمة المدفوعات" %}</h2>
+<a href="{% url 'payment_add' %}" class="btn btn-primary mb-3">{% trans "إضافة دفعة جديدة" %}</a>
+<table class="table table-bordered table-hover text-center">
+    <thead class="table-dark">
+        <tr>
+            <th>{% trans "الفاتورة" %}</th>
+            <th>{% trans "المبلغ المدفوع" %}</th>
+            <th>{% trans "تاريخ الدفع" %}</th>
+            <th>{% trans "طريقة الدفع" %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for payment in payments %}
+        <tr>
+            <td>{{ payment.invoice }}</td>
+            <td>{{ payment.amount }}</td>
+            <td>{{ payment.payment_date }}</td>
+            <td>{{ payment.method }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

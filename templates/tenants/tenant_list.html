@@ -3,24 +3,28 @@
 {% block title %}{% trans "قائمة المستأجرين" %}{% endblock %}
 {% block content %}
 <h2>{% trans "قائمة المستأجرين" %}</h2>
-<a href="{% url 'tenant_add' %}">{% trans "إضافة مستأجر جديد" %}</a>
-<table>
+<a href="{% url 'tenant_add' %}" class="btn btn-primary mb-3">{% trans "إضافة مستأجر جديد" %}</a>
+<table class="table table-bordered table-hover text-center">
+    <thead class="table-dark">
     <tr>
         <th>{% trans "الاسم" %}</th>
         <th>{% trans " الهاتف" %}</th>
         <th>{% trans "البريد " %}</th>
         <th>{% trans "خيارات" %}</th>
     </tr>
+        </thead>
+    <tbody>
     {% for tenant in tenants %}
     <tr>
         <td>{{ tenant.name }}</td>
         <td>{{ tenant.phone }}</td>
         <td>{{ tenant.email }}</td>
         <td>
-            <a href="{% url 'tenant_edit' tenant.id %}">{% trans "تعديل" %}</a>
-            <a href="{% url 'tenant_delete' tenant.id %}">{% trans "حذف" %}</a>
+            <a href="{% url 'tenant_edit' tenant.id %}" class="btn btn-warning btn-sm">{% trans "تعديل" %}</a>
+            <a href="{% url 'tenant_delete' tenant.id %}" class="btn btn-danger btn-sm">{% trans "حذف" %}</a>
         </td>
     </tr>
     {% endfor %}
+        </tbody>
 </table>
 {% endblock %}
