@@ -11,12 +11,29 @@ class Building(models.Model):
     verbose_name=_("العنوان")
   )
 
+  def __str__(self):
+    return self.name
+
+  @property
+  def total_floors(self):
+    return self.floors.count()
+
+  @property
+  def total_units(self):
+    return Unit.objects.filter(floor__building=self).count()
+
+  @property
+  def commercial_units(self):
+    return Unit.objects.filter(floor__building=self, is_commercial=True).count()
+
+  @property
+  def residential_units(self):
+    return Unit.objects.filter(floor__building=self, is_commercial=False).count()
+
   class Meta:
     verbose_name = _("مبني")
     verbose_name_plural = _("المباني")
-
-  def __str__(self):
-    return self.name
+    ordering = ['name']
 
 class Floor(models.Model):
   building = models.ForeignKey(

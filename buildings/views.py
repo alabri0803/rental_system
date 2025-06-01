@@ -19,28 +19,7 @@ class BuildingListView(LoginRequiredMixin, ListView):
   context_object_name = 'buildings'
   paginate_by = 10
 
-  def get_queryset(self):
-      queryset = Building.objects.annotate(
-          total_units=Count('floors__units', distinct=True),
-          commercial_units=Count(
-              'floors__units',
-              filter=Q(floors__units__is_commercial=True),
-              distinct=True
-          ),
-          residential_units=Count(
-              'floors__units',
-              filter=Q(floors__units__is_commercial=False),
-              distinct=True
-          )
-      )
-
-      search_query = self.request.GET.get('q')
-      if search_query:
-          queryset = queryset.filter(
-              Q(name__icontains=search_query) |
-              Q(address__icontains=search_query)
-          )
-      return queryset
+  
 
 class BuildingDetailView(LoginRequiredMixin, DetailView):
   model = Building

@@ -2,6 +2,7 @@
 {% load i18n %}
 {% block title %}{% trans "المباني" %}{% endblock %}
 {% block content %}
+<div class="container">
 <h2 class="mb-3">{% trans "المباني" %}</h2>
 <form method="get" class="row mb-4">
     <div class="col-md-6">
@@ -19,6 +20,7 @@
     <tr>
         <th>{% trans "الاسم" %}</th>
         <th>{% trans "العنوان" %}</th>
+        <th>{% trans "الطوابق" %}</th>
         <th>{% trans "الوحدات" %}</th>
         <th>{% trans "تجارية" %}</th>
         <th>{% trans "سكنية" %}</th>
@@ -26,22 +28,23 @@
     </tr>
         </thead>
     <tbody>
-    {% for building in buildings %}
+    {% for building in object_list %}
     <tr>
         <td>{{ building.name }}</td>
         <td>{{ building.address }}</td>
-        <td>{{ building.total_units }}</td>
-        <td>{{ building.commercial_units }}</td>
-        <td>{{ building.residential_units }}</td>
+        <td><span class="badge bg-secondary">{{ building.total_floors }}</span></td>
+        <td><span class="badge bg-primary">{{ building.total_units }}</span></td>
+        <td><span class="badge bg-warning text-dark">{{ building.commercial_units }}</span></td>
+        <td><span class="badge bg-success">{{ building.residential_units }}</span></td>
         <td>
-            <a href="{% url 'building_detail' building.id %}">{% trans "تفاصيل" %}</a>
-            <a href="{% url 'building_edit' building.id %}">{% trans "تعديل" %}</a>
-            <a href="{% url 'building_delete' building.id %}">{% trans "حذف" %}</a>
+            <a href="{% url 'building_detail' building.id %}" class="btn btn-info btn-sm">{% trans "عرض" %}</a>
+            <a href="{% url 'building_edit' building.id %}" class="btn btn-warning btn-sm">{% trans "تعديل" %}</a>
+            <a href="{% url 'building_delete' building.id %}" class="btn btn-danger btn-sm">{% trans "حذف" %}</a>
         </td>
     </tr>
         {% empty %}
         <tr>
-            <td colspan="3">{% trans "لا توجد مباني" %}</td>
+            <td colspan="7">{% trans "لا توجد مباني" %}</td>
         </tr>
     {% endfor %}
         </tbody>
@@ -67,4 +70,5 @@
     </ul>
 </nav>
 {% endif %}
+</div>
 {% endblock %}
