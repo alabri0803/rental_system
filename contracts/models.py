@@ -1,8 +1,10 @@
 from datetime import date
-from decimal import Decimal
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+OFFICE_FEE = 5
+ADMIN_FEE = 1
 
 class Contract(models.Model):
   tenant = models.ForeignKey(
@@ -24,21 +26,16 @@ class Contract(models.Model):
   )
   monthly_rent = models.DecimalField(
     max_digits=10,
-    decimal_places=3,
+    decimal_places=2,
     verbose_name=_("الإيجار الشهري (ريال عماني)")
   )
-  admin_fees = models.DecimalField(
-    max_digits=10,
-    decimal_places=2,
-    verbose_name=_("رسوم إدارية")
-  )
-
+  
   class Meta:
     verbose_name = _("عقد")
     verbose_name_plural = _("العقود")
 
   def __str__(self):
-    return f"عقد {self.tenant.full_name} - {self.unit} - {self.monthly_rent} ر.ع/شهر"
+    return f"عقد {self.tenant.full_name} - {self.unit}"
 
   @property
   def contract_duration(self):
@@ -46,7 +43,7 @@ class Contract(models.Model):
     years = delta.days // 365
     months = (delta.days % 365) // 30
     days = (delta.days % 365) % 30
-    return f"{years} سنة و {months} شهر و {days} يوم"
+    return f"{years} سنة {months} شهر {days} يوم"
 
   @property
   def time_remaining(self):
@@ -72,10 +69,9 @@ class Contract(models.Model):
 
   @property
   def total_amount(self):
-    rent_annual = self.monthly_rent * 12
-    commission = rent_annual * Decimal('3%')
-    total = rent_annual + commission + self.admin_fees + Decimal('5.000')
-    return total.quantize(Decimal('0.00'))
+    base = self.monthly_rent * 12
+    commission = base * 0.03
+    return round(base + commission + OFFICE_FEE + ADMIN_FEE, 2)
 
 class Invoice(models.Model):
   contract = models.ForeignKey(

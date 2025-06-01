@@ -57,4 +57,4 @@ class Unit(models.Model):
     verbose_name_plural = _("الوحدات")
 
   def __str__(self):
-    return f"وحدة {self.unit_number} ({'محل' if self.is_commercial else 'سكني'})"
+    return f"وحدة {self.unit_number} ({'تجاري' if self.is_commercial else 'سكني'})"
