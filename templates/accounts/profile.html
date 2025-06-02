@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "ملف المستخدم" %}{% endblock %}
+{% block content %}
+<h3>
+    {% trans "مرحبا" %} {{ user.username }}
+</h3>
+<form method="post">
+    {% csrf_token %}
+    {{ user_form.as_p }}
+    {{ profile_form.as_p }}
+    <button type="submit" class="btn btn-success">{% trans "حفظ" %}</button>
+</form>
+{% endblock %}

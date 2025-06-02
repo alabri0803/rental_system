@@ -21,12 +21,16 @@
           <span class="nav-link">مرحبًا، {{ user.username }}</span>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="{% url 'profile' %}">ملف المستخدم</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link text-danger" href="{% url 'logout' %}">تسجيل الخروج</a>
         </li>
         {% else %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'login' %}">تسجيل الدخول</a>
         </li>
+  
         {% endif %}
 
         <li class="nav-item">
