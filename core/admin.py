@@ -2,10 +2,15 @@ from django.contrib import admin
 
 from .models import (
   CommunicationLog,
+  Complaint,
   Contact,
   EvictionNotice,
+  HelpContact,
   MoveOutNotice,
   ServiceRating,
+  UnitReport,
+  UnitReportAlbum,
+  UnitReportType,
   UnitTourVisit,
 )
 
@@ -42,3 +47,35 @@ class CommunicationLogAdmin(admin.ModelAdmin):
   list_display = ('tenant', 'method', 'subject', 'date_sent')
   list_filter = ('method', 'date_sent')
   search_fields = ('tenant__full_name', 'subject')
+
+@admin.register(UnitReportType)
+class UnitReportTypeAdmin(admin.ModelAdmin):
+  list_display = ('name',)
+  search_fields = ('name',)
+
+class UnitReportAlbumInline(admin.TabularInline):
+  model = UnitReportAlbum
+  extra = 1
+  readonly_fields = ('image',)
+  fields = ('image',)
+
+@admin.register(UnitReport)
+class UnitReportAdmin(admin.ModelAdmin):
+  list_display = ('unit', 'tenant', 'report_type', 'created_at', 'resolved')
+  list_filter = ('report_type', 'created_at', 'resolved')
+  search_fields = ('unit__unit_number', 'tenant__full_name', 'description')
+  inlines = [UnitReportAlbumInline]
+  readonly_fields = ('created_at',)
+
+@admin.register(Complaint)
+class ComplaintAdmin(admin.ModelAdmin):
+  list_display = ('tenant', 'subject', 'created_at', 'resolved')
+  list_filter = ('created_at', 'resolved')
+  search_fields = ('tenant__full_name', 'subject', 'message')
+  readonly_fields = ('created_at',)
+
+@admin.register(HelpContact)
+class HelpContactAdmin(admin.ModelAdmin):
+  list_display = ('full_name', 'email', 'phone', 'created_at')
+  search_fields = ('full_name', 'email', 'phone')
+  readonly_fields = ('created_at',)

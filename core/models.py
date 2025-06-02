@@ -184,3 +184,135 @@ class CommunicationLog(models.Model):
   class Meta:
     verbose_name = _('سجل التواصل')
     verbose_name_plural = _('سجلات التواصل')
+
+class UnitReportType(models.Model):
+  name = models.CharField(
+    max_length=100,
+    verbose_name=_('نوع التقرير'),
+  )
+
+  def __str__(self):
+    return self.name
+
+  class Meta:
+    verbose_name = _('نوع التقرير')
+    verbose_name_plural = _('أنواع التقارير')
+
+class UnitReport(models.Model):
+  unit = models.ForeignKey(
+    Unit,
+    on_delete=models.CASCADE,
+    verbose_name=_('الوحدة'),
+  )
+  tenant = models.ForeignKey(
+    Tenant,
+    on_delete=models.SET_NULL,
+    null=True,
+    blank=True,
+    verbose_name=_('المستأجر'),
+  )
+  report_type = models.ForeignKey(
+    UnitReportType,
+    on_delete=models.SET_NULL,
+    null=True,
+    verbose_name=_('نوع التقرير'),
+  )
+  description = models.TextField(
+    verbose_name=_('الوصف'),
+  )
+  created_at = models.DateTimeField(
+    auto_now_add=True,
+    verbose_name=_('تاريخ الإنشاء'),
+  )
+  resolved = models.BooleanField(
+    default=False,
+    verbose_name=_('تم الحل'),
+  )
+
+  def __str__(self):
+    return f"{self.report_type} - {self.unit}"
+
+  class Meta:
+    verbose_name = _('تقرير الوحدة')
+    verbose_name_plural = _('تقارير الوحدات')
+
+class UnitReportAlbum(models.Model):
+  report = models.ForeignKey(
+    UnitReport,
+    on_delete=models.CASCADE,
+    related_name='images',
+    verbose_name=_('التقرير'),
+  )
+  image = models.ImageField(
+    upload_to='unit_reports/',
+    verbose_name=_('الصورة'),
+  )
+
+  def __str__(self):
+    return f"صورة لـ {self.report.id}"
+
+  class Meta:
+    verbose_name = _('صورة تقرير الوحدة')
+    verbose_name_plural = _('صور تقارير الوحدات')
+
+class Complaint(models.Model):
+  tenant = models.ForeignKey(
+    Tenant,
+    on_delete=models.CASCADE,
+    verbose_name=_('المستأجر'),
+  )
+  subject = models.CharField(
+    max_length=255,
+    verbose_name=_('الموضوع'),
+  )
+  message = models.TextField(
+    verbose_name=_('محتوى الشكوى'),
+  )
+  reply = models.TextField(
+    blank=True,
+    null=True,
+    verbose_name=_('الرد'),
+  )
+  created_at = models.DateTimeField(
+    auto_now_add=True,
+    verbose_name=_('تاريخ الإنشاء'),
+  )
+  resolved = models.BooleanField(
+    default=False,
+    verbose_name=_('تم الرد'),
+  )
+
+  def __str__(self):
+    return f"{self.subject} - {self.tenant}"
+
+  class Meta:
+    verbose_name = _('شكوى')
+    verbose_name_plural = _('الشكاوى')
+
+class HelpContact(models.Model):
+  full_name = models.CharField(
+    max_length=255,
+    verbose_name=_('الاسم'),
+  )
+  email = models.EmailField(
+    max_length=255,
+    verbose_name=_('البريد الالكتروني'),
+  )
+  phone = models.CharField(
+    max_length=20,
+    verbose_name=_('رقم الهاتف')
+  )
+  message = models.TextField(
+    verbose_name=_('الرسالة'),
+  )
+  created_at = models.DateTimeField(
+    auto_now_add=True,
+    verbose_name=_('التاريخ'),
+  )
+
+  def __str__(self):
+    return f"{self.full_name}"
+
+  class Meta:
+    verbose_name = _('اتصال المساعدة')
+    verbose_name_plural = _('اتصالات المساعدة')
