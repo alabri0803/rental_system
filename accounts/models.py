@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
 from tenants.models import Tenant
+
 
 class UserProfile(models.Model):
   ROLE_CHOICES = (
@@ -27,8 +29,8 @@ class UserProfile(models.Model):
     default='staff',
     verbose_name=_('الدور')
   )
-  tenant = models.ForeignKey(
-    'tenants.Tenant',
+  tenant = models.OneToOneField(
+    Tenant,
     on_delete=models.SET_NULL,
     blank=True,
     null=True,
