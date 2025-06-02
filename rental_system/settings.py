@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'properties',
     'utilities',
-    'workorders'
+    'workorders',
+    'reports',
 ]
 
 MIDDLEWARE = [

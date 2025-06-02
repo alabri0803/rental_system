@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}تقرير الإيجارات{% endblock %}
+{% block content %}
+<h2>📄 تقرير الإيجارات - سنة {{ year }}</h2>
+<p>إجمالي المدفوع: <strong>{{ total_paid|floatformat:3 }} ريال عماني</strong></p>
+
+<table class="table table-bordered table-striped text-center">
+  <thead>
+    <tr>
+      <th>المستأجر</th>
+      <th>العقد</th>
+      <th>الشهر</th>
+      <th>المبلغ</th>
+      <th>تاريخ الدفع</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in payments %}
+      <tr>
+        <td>{{ p.contract.tenant.full_name }}</td>
+        <td>#{{ p.contract.id }}</td>
+        <td>{{ p.month }}</td>
+        <td>{{ p.amount_paid|floatformat:3 }}</td>
+        <td>{{ p.payment_date }}</td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="5">لا توجد بيانات</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
