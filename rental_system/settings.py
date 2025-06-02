@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'contracts',
     'payments',
     'widget_tweaks',
+    'properties',
+    'utilities',
 ]
 
 MIDDLEWARE = [
