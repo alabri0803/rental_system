@@ -2,18 +2,12 @@
 {% load i18n %}
 {% block title %}{% trans "لوحة التحكم" %}{% endblock %}
 {% block content %}
-<h2 class="mb-4">{% trans "لوحة التحكم" %}</h2>
-<div class="row g-4 mb-4">
-  <div class="col-md-3">
+<h2>{% trans "لوحة التحكم" %}</h2>
+<div class="row my-4">
+  <div class="col-md-4">
     <div class="card bg-primary text-white text-center">
-      <div class="card-body">{% trans "المباني" %}:<strong>{{ total_buildings }}</strong>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="card bg-info text-white text-center">
-      <div class="card-body">{% trans "الوحدات" %}
-        <strong>{{ total_units }}</strong>
+      <div class="card-body">
+        {% trans "المباني" %}:<strong>{{ total_buildings }}</strong>
       </div>
     </div>
   </div>
@@ -31,35 +25,25 @@
       </div>
     </div>
   </div>
-  <div class="row g-4">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-header bg-light fw-bold">{% trans "نسبة العقود" %}</div>
-        <div class="card-body">
-          <canvas id="contractsPieChart" width="400" height="300"></canvas>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-header bg-light fw-bold">{% trans "ملخص البيانات" %}</div>
-        <div class="card-body">
-          <canvas id="summaryBarChart" width="400" height="300"></canvas>
-        </div>
-      </div>
-    </div>
+</div>
+<div class="card shadow-sm">
+  <div class="card-header bg-white">
+    <h5 class="mb-0">{% trans "حالة العقود" %}</h5>
+  </div>
+  <div class="card-body">
+    <canvas id="contractsPieChart" height="100"></canvas>
   </div>
 </div>
   <script>
-    const pieCtx = document.getElementById('contractsPieChart').getContext('2d');
-    new Chart(pieCtx, {
-      type: 'doughnut',
+    const ctx = document.getElementById('contractsPieChart');
+    new Chart(ctx, {
+      type: 'pie',
       data: {
-        labels: ['{% trans "سارية" %}', '{% trans "قريب الانتهاء" %}', '{% trans "منتهية" %}'],
+        labels: {{ chart_data.labels|safe }},
         datasets: [{
           label: 'العقود',
-          data: [{{ expired_count }}, {{ expiring_count }}, {{ active_count}}],
-          backgroundColor: ['green', 'orange', 'red']
+          data: {{ chart_data.values|safe }},
+          backgroundColor: {{ chart_data.colors|safe }},
       }]
     },
       options: {
@@ -69,26 +53,5 @@
         }
       }
     });
-    const barCtx = document.getElementById('summaryBarChart').getContext('2d');
-    new Chart(barCtx, {
-      type: 'bar',
-      data: {
-        labels: ['{% trans "المستأجرين" %}', '{% trans "الوحدات" %}', '{% trans "المباني" %}'],
-        datasets: [{
-          label: '{% trans "العدد" %}',
-          data: [{{ total_buildings }}, {{ total_units }}, {{ total_tenants }}],
-          backgroundColor: ['#0d6efd', '#0dcaf0', '#198754']
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: { stepSize: 1 }
-        }
-      }
-    }
-  });
   </script>
 {% endblock %}
