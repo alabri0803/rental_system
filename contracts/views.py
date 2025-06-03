@@ -1,9 +1,10 @@
 from datetime import date
 
 import openpyxl
+from django import forms
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -15,10 +16,23 @@ from django.views.generic import (
   UpdateView,
 )
 
+from buildings.models import Unit
+
 from .forms import ContractForm
 from .models import Contract, Invoice
 
 
+def available_units_api(request):
+  building_id = request.GET.get('building_id')
+  data = []
+  if building_id:
+    units = Unit.objects.filter(floor__building_id=building_id)
+    for unit in units:
+      data.append({
+        'id': unit.id,
+        'text': f"{unit.unit_number} - {'تجاري' if unit.is_commercial else 'سكني'}"
+      })
+  return JsonResponse({'results': data})
 class ContractListView(LoginRequiredMixin, ListView):
   model = Contract
   template_name = 'contracts/contract_list.html'
@@ -29,6 +43,13 @@ class ContractCreateView(LoginRequiredMixin, CreateView):
   form_class = ContractForm
   template_name = 'contracts/contract_form.html'
   success_url = reverse_lazy('contract_list')
+  def clean_unit(self):
+    unit = self.cleaned_data['unit']
+    start = self.cleaned_data['start_date']
+    end = self.cleaned_data['end_date']
+    if Contract.objects.filter(unit=unit, end_date__gte=date.today()).exists():
+      raise forms.ValidationError(_("هذه الوحدة مؤجرة حاليا"))
+    return unit
 
 class ContractUpdateView(LoginRequiredMixin, UpdateView):
   model = Contract

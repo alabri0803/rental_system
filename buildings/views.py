@@ -2,8 +2,8 @@ import openpyxl
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Max, Q
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import (
   CreateView,
@@ -17,6 +17,18 @@ from .forms import BuildingForm, FloorForm, UnitForm
 from .models import Building, Floor, Unit
 
 
+def available_units_api(request):
+  building_id = request.GET.get('building_id')
+  data = []
+  if building_id:
+    units = Unit.objects.filter(floor__building_id=building_id)
+    for unit in units:
+      data.append({
+        'id': unit.id,
+        'text': f"{unit.unit_number} - {'تجاري' if unit.is_commercial else 'سكني'}"
+      })
+  return JsonResponse({'results': data})
+  
 def export_units_excel(request):
   if not request.user.groups.filter(name='مشرف').exists():
     messages.warning(request, "لا تملك صلاحية تصدير التقارير")

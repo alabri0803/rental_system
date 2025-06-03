@@ -6,6 +6,12 @@
 <h2>{% trans "إضافة عقد جديد" %}</h2>
 <form method="post">
     {% csrf_token %}
+    <select id="id_building" class="form-select mb-3">
+        <option value="">{% trans "اختر المبنى" %}</option>
+        {% for building in buildings %}
+            <option value="{{ building.id }}">{{ building.name }}</option>
+        {% endfor %}
+    </select>
     {{ form.as_p }}
     <button type="submit">{% trans "حفظ" %}</button>
 </form>
@@ -20,6 +26,40 @@
                     document.querySelector("form").submit();
                 }
             });
+        });
+    });
+    $('#id_building').on('change', function() {
+        let buildingId = $(this).val();
+        $.ajax({
+            url: "{% url 'available_units_api' %}",
+            data: {
+                'building_id': buildingId
+            },
+            success: function(data) {
+                let unitSelect = $('#id_unit');
+                unitSelect.empty();
+                $.each(data.results, function(i, item){
+                    unitSelect.append($('<option>', {
+                        value: item.id,
+                        text: item.text
+                    }));
+                });
+            }
+        });
+    });
+    $('#contractForm').on('submit', function(e){
+        e.preventDefault();
+        let form = $(this);
+        $.ajax({
+            type: form.attr('method'),
+            url: form.attr('action'),
+            data: form.serialize(),
+            success: function(response){
+                alert('تم الحفظ بنجاح');
+            },
+            error: function(xhr) {
+                alert('حدث خطأ أثناء الحفظ');
+            }
         });
     });
 </script>

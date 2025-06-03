@@ -15,12 +15,11 @@ class ContractForm(forms.ModelForm):
       'tenant': ModelSelect2Widget(
         model=Tenant,
         search_fields=['full_name__icontains'],
-        attrs={'class': 'form-select'}
       ),
       'unit': ModelSelect2Widget(
         model=Unit,
         search_fields=['unit_number__icontains'],
-        attrs={'class': 'form-select'}
+        dependent_fields={'tenant': 'floor__building'},
       ),
       'start_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
       'end_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
