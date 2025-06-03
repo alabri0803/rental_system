@@ -1,6 +1,10 @@
 from django import forms
+from django_select2.forms import ModelSelect2Widget
 
-from .models import Contract, Invoice
+from buildings.models import Unit
+from tenants.models import Tenant
+
+from .models import Contract
 
 
 class ContractForm(forms.ModelForm):
@@ -8,20 +12,17 @@ class ContractForm(forms.ModelForm):
     model = Contract
     fields = ['tenant', 'unit', 'start_date', 'end_date', 'monthly_rent']
     widgets = {
-      'tenant': forms.Select(attrs={'class': 'form-select'}),
-      'unit': forms.Select(attrs={'class': 'form-select'}),
+      'tenant': ModelSelect2Widget(
+        model=Tenant,
+        search_fields=['full_name__icontains'],
+        attrs={'class': 'form-select'}
+      ),
+      'unit': ModelSelect2Widget(
+        model=Unit,
+        search_fields=['unit_number__icontains'],
+        attrs={'class': 'form-select'}
+      ),
       'start_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
       'end_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
       'monthly_rent': forms.NumberInput(attrs={'class': 'form-control'}),
-    }
-
-class InvoiceForm(forms.ModelForm):
-  class Meta:
-    model = Invoice
-    fields = ['contract', 'month', 'year', 'is_paid']
-    widgets = {
-      'contract': forms.Select(attrs={'class': 'form-select'}),
-      'month': forms.NumberInput(attrs={'class': 'form-control'}),
-      'year': forms.NumberInput(attrs={'class': 'form-control'}),
-      'is_paid': forms.CheckboxInput(attrs={'class': 'form-check-input'})
     }

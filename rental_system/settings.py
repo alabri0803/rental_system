@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'admin_interface',
     'colorfield',
+    'django_select2',
 ]
 
 MIDDLEWARE = [

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load static %}
 {% block title %}{% trans "إضافة عقد جديد" %}{% endblock %}
 {% block content %}
 <h2>{% trans "إضافة عقد جديد" %}</h2>
@@ -8,4 +9,18 @@
     {{ form.as_p }}
     <button type="submit">{% trans "حفظ" %}</button>
 </form>
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        const tenantField = document.querySelector('#id_tenant');
+        const unitField = document.querySelector('#id_unit');
+        const rentField = document.querySelector('#id_rent');
+        [tenantField, unitField, rentField].forEach(field => {
+            field.addEventListener("change", () => {
+                if (tenantField.value && unitField.value && rentField.value) {
+                    document.querySelector("form").submit();
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}
