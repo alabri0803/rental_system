@@ -13,6 +13,9 @@
     </div>
     <div class="col-md-4 text-end">
         <a href="{% url 'building_add' %}" class="btn btn-success">{% trans 'إضافة مبنى جديد' %}</a>
+        <a href="{% url 'export_units_excel' %}" class="btn btn-info">
+            <i class="bi bi-file-earmark-spreadsheet"></i> {% trans 'تصدير' %}
+            </a>
     </div>
 </form>
 <table class="table table-bordered table-hover text-center align-middle">

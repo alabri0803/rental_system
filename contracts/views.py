@@ -37,6 +37,9 @@ class ContractDeleteView(LoginRequiredMixin, DeleteView):
   template_name = 'contracts/contract_confirm_delete.html'
   success_url = reverse_lazy('contract_list')
 
+  def test_func(self):
+    return self.request.user.groups.filter(name='مشرف').exists()
+
 class InvoiceDetailView(LoginRequiredMixin, DetailView):
   model = Invoice
   template_name = 'contracts/invoice_print.html'

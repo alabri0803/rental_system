@@ -56,8 +56,10 @@
         </td>
         <td>
             <a href="{% url 'contract_edit' contract.id %}" class="btn btn-primary btn-sm">{% trans "تعديل" %}</a>
-            <a href="{% url 'contract_delete' contract.id %}" class="btn btn-danger btn-sm">{% trans "حذف" %}</a>
+            {% if user.groups.first.name == 'مشرف' %}
+            <a href="{% url 'contract_delete' contract.pk %}" class="btn btn-danger btn-sm">{% trans "حذف" %}</a>
         </td>
+        {% endif %}
     </tr>
         {% empty %}
         <tr>

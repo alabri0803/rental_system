@@ -1,5 +1,8 @@
+import openpyxl
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Count, Q, Max
+from django.db.models import Count, Max, Q
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import (
   CreateView,
@@ -8,11 +11,28 @@ from django.views.generic import (
   ListView,
   UpdateView,
 )
-from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import render, redirect, get_object_or_404
+
 from .forms import BuildingForm, FloorForm, UnitForm
 from .models import Building, Floor, Unit
 
+
+def export_units_excel(request):
+  wb = openpyxl.Workbook()
+  ws = wb.active
+  ws.title = 'الوحدات'
+
+  ws.append(["رقم الوحدة", "نوع الوحدة", "رقم الطابق", "المبني"])
+  for unit in Unit.objects.select_related('floor__building'):
+    ws.append([
+      unit.unit_number,
+      "سكني" if unit.is_commercial else "تجاري",
+      unit.floor.number, 
+      unit.floor.building.name
+    ])
+  response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+  response['Content-Disposition'] = 'attachment; filename="الوحدات.xlsx"'
+  wb.save(response)
+  return response
 
 class BuildingListView(LoginRequiredMixin, ListView):
   model = Building
