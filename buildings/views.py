@@ -1,4 +1,5 @@
 import openpyxl
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Max, Q
 from django.http import HttpResponse
@@ -17,6 +18,9 @@ from .models import Building, Floor, Unit
 
 
 def export_units_excel(request):
+  if not request.user.groups.filter(name='مشرف').exists():
+    messages.warning(request, "لا تملك صلاحية تصدير التقارير")
+    return redirect("building_list")
   wb = openpyxl.Workbook()
   ws = wb.active
   ws.title = 'الوحدات'

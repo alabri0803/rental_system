@@ -3,7 +3,9 @@
 {% block title %}{% trans "الإعدادات" %}{% endblock %}
 {% block content %}
 <h2>{% trans "الإعدادات" %}</h2>
-<p>
-  هنا يمكنك إدارة الرسوم والخيارات العامة للنظام
-</p>
+<form method="post" class="card card-body shadow">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-success">{% trans "حفظ" %}</button>
+</form>
 {% endblock %}

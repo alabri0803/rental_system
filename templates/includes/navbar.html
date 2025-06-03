@@ -12,11 +12,15 @@
         <li class="nav-item"><a class="nav-link" href="{% url 'building_list' %}">المباني</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'tenant_list' %}">المستأجرين</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'contract_list' %}">العقود</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'settings' %}">الإعدادات</a></li>
         {% endif %}
       </ul>
 
       <ul class="navbar-nav">
         {% if user.is_authenticated %}
+        <div class="alert alert-light small text-end" style="direction: rtl;">
+          {{ user.first_name }}
+        </div>
         {% if user.groups.first.name == 'مشرف' %}
         <strong>مشرف</strong>مرحباً
         {% else %}

@@ -3,12 +3,17 @@ from datetime import date, timedelta
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
+from django.views.generic.edit import UpdateView
 
 from buildings.models import Building
 from contracts.models import Contract
 from tenants.models import Tenant
+
+from .forms import SystemSettingsForm
+from .models import SystemSettings
 
 
 def is_supervisor(user):
@@ -40,3 +45,10 @@ def dashboard(request):
     'chart_data': chart_data,
   }
   return render(request, 'core/dashboard.html', context)
+
+@method_decorator(user_passes_test(lambda u: u.groups.filter(name='مشرف').exists()), name='dispatch')
+class SettingsUpdateView(LoginRequiredMixin, UpdateView):
+  model = SystemSettings
+  form_class = SystemSettingsForm
+  template_name = 'core/settings_form.html'
+  success_url = reverse_lazy('settings')
