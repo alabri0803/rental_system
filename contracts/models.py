@@ -4,6 +4,8 @@ from decimal import Decimal
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from core.models import SystemSettings
+
 OFFICE_FEE = Decimal('5.000')
 ADMIN_FEE = Decimal('1.000')
 COMMISSION_RATE = Decimal('0.03')
@@ -31,6 +33,13 @@ class Contract(models.Model):
     decimal_places=3,
     verbose_name=_("الإيجار الشهري (ريال عماني)")
   )
+
+  def get_system_settings(self):
+    try:
+      return SystemSettings.objects.first()
+    except:
+      return None
+    
   
   class Meta:
     verbose_name = _("عقد")
@@ -49,9 +58,11 @@ class Contract(models.Model):
 
   @property
   def registration_fee(self):
-    base = self.yearly_rent_total
-    commission = base * COMMISSION_RATE
-    return commission + OFFICE_FEE + ADMIN_FEE
+    settings = self.get_system_settings()
+    if settings:
+      commission = self.yearly_rent_total * settings.commission_rate
+      return commission + settings.contract_office_fee + settings.admin_fee
+    return self.yearly_rent_total * COMMISSION_RATE + OFFICE_FEE + ADMIN_FEE
 
   @property
   def total_amount(self):

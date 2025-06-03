@@ -47,8 +47,15 @@ def dashboard(request):
   return render(request, 'core/dashboard.html', context)
 
 @method_decorator(user_passes_test(lambda u: u.groups.filter(name='مشرف').exists()), name='dispatch')
+
 class SettingsUpdateView(LoginRequiredMixin, UpdateView):
   model = SystemSettings
   form_class = SystemSettingsForm
   template_name = 'core/settings_form.html'
   success_url = reverse_lazy('settings')
+
+  def form_valid(self, form):
+    instance = form.save(commit=False)
+    instance.update_by = self.request.user
+    instance.save()
+    return super().form_valid(form)

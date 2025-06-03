@@ -36,6 +36,13 @@ class ContractUpdateView(LoginRequiredMixin, UpdateView):
   template_name = 'contracts/contract_form.html'
   success_url = reverse_lazy('contract_list')
 
+  def test_func(self):
+    return self.request.user.groups.filter(name='مشرف').exists()
+
+  def handle_no_permission(self):
+    messages.warning(self.request, _("لا تملك صلاحية تنفيذ هذا الإجراءات"))
+    return redirect('contract_list')
+
 class ContractDeleteView(LoginRequiredMixin, DeleteView):
   model = Contract
   template_name = 'contracts/contract_confirm_delete.html'

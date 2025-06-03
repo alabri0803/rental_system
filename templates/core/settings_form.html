@@ -3,9 +3,10 @@
 {% block title %}{% trans "الإعدادات" %}{% endblock %}
 {% block content %}
 <h2>{% trans "الإعدادات" %}</h2>
-<form method="post" class="card card-body shadow">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="btn btn-success">{% trans "حفظ" %}</button>
-</form>
+{% if form.instance.updated_by %}
+<p><br>
+  {{ "form.instance.updated_at|date:"Y-m-d H:i }} آخر تعديل:
+  {{ form.instance.updated_by.get_full_name|default:form.instance.updated_by.username}}
+</p>
+{% endif %}
 {% endblock %}

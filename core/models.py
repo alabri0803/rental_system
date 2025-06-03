@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -20,6 +21,19 @@ class SystemSettings(models.Model):
     decimal_places=2,
     default=0.03,
     verbose_name=_("نسبة العمولة (%)")
+  )
+  update_at = models.DateTimeField(
+    auto_now=True,
+    verbose_name=_("تاريخ التحديث")
+  )
+  update_by = models.ForeignKey(
+    settings.AUTH_USER_MODEL,
+    on_delete=models.SET_NULL,
+    null=True,
+    blank=True,
+    editable=False,
+    related_name='updated_settings',
+    verbose_name=_("تم التحديث بواسطة")
   )
 
   class Meta:
