@@ -2,8 +2,7 @@
 {% load i18n %}
 {% block title %}{% trans "تسجيل الدخول" %}{% endblock %}
 {% block content %}
-<div class="container" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
-    <div class="row justify-content-center">
+<div class="row justify-content-center">
     <div class="col-md-6">
         <div class="card p-4 shadow">
             <h3 class="text-center mb-4">{% trans "تسجيل الدخول" %}</h3>
@@ -11,10 +10,9 @@
                     {% csrf_token %}
                     {{ form.as_p }}
                     <div class="text-center">
-                        <button type="submit" class="btn btn-success w-100">{% trans " الدخول" %}</button>
+                        <button type="submit" class="btn btn-success">{% trans " الدخول" %}</button>
                     </div>
                 </form>
-        </div>
         </div>
     </div>
 </div>
