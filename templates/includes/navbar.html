@@ -17,6 +17,11 @@
 
       <ul class="navbar-nav">
         {% if user.is_authenticated %}
+        {% if user.groups.first.name == 'مشرف' %}
+        <strong>مشرف</strong>مرحباً
+        {% else %}
+        <strong>موظف</strong>مرحباً
+        {% endif %}
         <li class="nav-item">
           <span class="nav-link">مرحبًا، {{ user.username }}</span>
         </li>

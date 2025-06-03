@@ -1,13 +1,23 @@
 from datetime import date, timedelta
 
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
+from django.utils.decorators import method_decorator
+from django.views.generic import TemplateView
 
 from buildings.models import Building
 from contracts.models import Contract
 from tenants.models import Tenant
 
 
+def is_supervisor(user):
+  return user.groups.filter(name='مشرف').exists()
+
+@method_decorator(user_passes_test(is_supervisor, login_url='dashboard'), name='dispatch')
+class SettingsView(LoginRequiredMixin, TemplateView):
+  template_name = 'core/settings.html'
+  
 @login_required
 def dashboard(request):
   today = date.today()

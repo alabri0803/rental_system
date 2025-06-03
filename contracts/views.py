@@ -1,8 +1,12 @@
 from datetime import date
 
 import openpyxl
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import (
   CreateView,
   DeleteView,
@@ -39,6 +43,10 @@ class ContractDeleteView(LoginRequiredMixin, DeleteView):
 
   def test_func(self):
     return self.request.user.groups.filter(name='مشرف').exists()
+
+  def handle_no_permission(self):
+    messages.warning(self.request, _("لا تملك صلاحية تنفيذ هذا الإجراءات"))
+    return redirect('contract_list')
 
 class InvoiceDetailView(LoginRequiredMixin, DetailView):
   model = Invoice
