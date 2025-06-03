@@ -2,13 +2,12 @@
 {% load i18n %}
 {% block title %}{% trans "ملف المستخدم" %}{% endblock %}
 {% block content %}
-<h3 class="mb-4">
-    {% trans "مرحبا" %} {{ user.username }}
-</h3>
-<form method="post">
-    {% csrf_token %}
-    {{ user_form.as_p }}
-    {{ profile_form.as_p }}
-    <button type="submit" class="btn btn-success">{% trans "حفظ" %}</button>
-</form>
+<div class="container" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+    <h2 class="mb-4">{% trans "مرحباً" %} {{ user.get_full_name|default:user.username }}</h2>
+    <div class="card p-4 shadow-sm">
+        <p><strong>{% trans "اسم المستخدم:" %}</strong> {{ user.username }}</p>
+        <p><strong>{% trans "البريد الإلكتروني:" %}</strong> {{ user.email }}</p>
+        <p><strong>{% trans "الدور الحالي:" %}</strong>{% if user.groups.name == 'مشرف' %} {% else %} {% trans "موظف" %} {% endif %}</p>
+    </div>
+</div>
 {% endblock %}
