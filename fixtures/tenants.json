@@ -1,0 +1,24 @@
+[
+{
+  "model": "tenants.tenant",
+  "pk": 1,
+  "fields": {
+    "full_name": "ايلين رافيلا للتجارة",
+    "national_id": "1462451",
+    "phone": "95231630",
+    "email": "archleogl@gmail.com",
+    "address": "محافظ مسقط/بوشر/الخوير الجنوبية"
+  }
+},
+{
+  "model": "tenants.tenant",
+  "pk": 3,
+  "fields": {
+    "full_name": "خالد المبارك",
+    "national_id": "",
+    "phone": "",
+    "email": "khalid@example.com",
+    "address": ""
+  }
+}
+]

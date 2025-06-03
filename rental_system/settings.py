@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'contracts',
     'payments',
     'widget_tweaks',
+    'admin_interface',
+    'colorfield',
 ]
 
 MIDDLEWARE = [
@@ -146,3 +148,4 @@ SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_SAMESITE = 'None'
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_SAMESITE = 'None'
+X_FRAME_OPTIONS = 'SAMEORIGIN'
